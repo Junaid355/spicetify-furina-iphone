@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="furina-fontaine">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Spicetify Furina — iPhone Web Player</title>
+  
+  <!-- iOS PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Spicetify" />
+  <meta name="theme-color" content="#060d1b" />
+  <link rel="apple-touch-icon" href="assets/icons/app-icon.jpg" />
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/app.css" />
+</head>
+<body>
+  <div class="app-ambient-glow"></div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand-section">
+      <img class="brand-avatar" src="assets/images/furina_portrait.jpg" alt="Furina" />
+      <div class="brand-info">
+        <div class="brand-title">Spicetify <span>✦</span></div>
+        <div class="brand-subtitle">Furina Fontaine Edition</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="badge-pill" id="network-badge">
+        <span>⚡</span> Online
+      </div>
+      <button class="btn-icon" id="btn-import-local" title="Import Local Audio from Files">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </button>
+      <button class="btn-icon" id="btn-open-settings" title="Settings & Spotify">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hidden File Input for Local Audio Import -->
+  <input type="file" id="local-audio-file-input" accept="audio/*" multiple style="display: none;" />
+
+  <!-- Main View Container -->
+  <main class="app-main">
+    
+    <!-- 1. Home View -->
+    <section class="view-section active" id="view-home">
+      <!-- Furina Hero Banner -->
+      <div class="hero-banner">
+        <img class="hero-banner-img" src="assets/images/furina_bg.jpg" alt="Furina Fontaine Banner" />
+        <div class="hero-banner-overlay">
+          <div class="hero-badge">✦ Fontaine Opera Epiclese</div>
+          <div class="hero-title">All The World's A Stage</div>
+          <div class="hero-subtitle">High-fidelity Spicetify experience for your iPhone. Zero ads, offline downloads, synced lyrics.</div>
+        </div>
+      </div>
+
+      <!-- Featured Playlists Shelf -->
+      <div class="section-header">
+        <h2 class="section-title">Curated Playlists</h2>
+        <span class="section-link" onclick="window.switchTab('library')">See All</span>
+      </div>
+      <div class="shelf-scroll" id="featured-playlists-shelf"></div>
+
+      <!-- Recent & Recommended Tracks -->
+      <div class="section-header">
+        <h2 class="section-title">Fontaine Solitaire Tracks</h2>
+      </div>
+      <div class="track-list" id="home-recent-tracks"></div>
+    </section>
+
+    <!-- 2. Search View -->
+    <section class="view-section" id="view-search">
+      <div class="section-header" style="margin-top: 10px;">
+        <h2 class="section-title">Search</h2>
+      </div>
+      <input type="text" class="input-field" id="search-input" placeholder="Search songs, artists, playlists, or Spotify..." />
+      <div class="track-list" id="search-results"></div>
+    </section>
+
+    <!-- 3. Your Library View -->
+    <section class="view-section" id="view-library">
+      <div class="section-header" style="margin-top: 10px;">
+        <h2 class="section-title">Your Library</h2>
+        <button class="btn-subtle" id="btn-create-playlist">+ New Playlist</button>
+      </div>
+      <div class="track-list" id="library-playlists-list"></div>
+    </section>
+
+    <!-- 4. Playlist Detail View -->
+    <section class="view-section" id="view-playlist-detail">
+      <div style="margin-bottom: 12px;">
+        <button class="btn-subtle" id="btn-back-playlist">← Back</button>
+      </div>
+      <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 18px;">
+        <img id="pl-detail-cover" src="assets/images/furina_logo.jpg" style="width: 90px; height: 90px; border-radius: 12px; object-fit: cover; box-shadow: var(--shadow-card);" />
+        <div>
+          <h2 id="pl-detail-title" style="font-size: 1.25rem; font-weight: 800; margin-bottom: 4px;">Playlist</h2>
+          <p id="pl-detail-desc" style="font-size: 0.78rem; color: var(--text-sub); margin-bottom: 6px;"></p>
+          <span id="pl-detail-count" style="font-size: 0.72rem; color: var(--text-dim);">0 tracks</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; margin-bottom: 18px;">
+        <button class="btn-primary" id="btn-play-all-playlist" style="flex: 1; padding: 10px;">▶ Play All</button>
+        <button class="btn-subtle" id="btn-download-all-playlist" style="flex: 1;">📥 Download All Offline</button>
+      </div>
+      <div class="track-list" id="pl-detail-tracks"></div>
+    </section>
+
+    <!-- 5. Spicetify Hub (Themes & Extensions) -->
+    <section class="view-section" id="view-spicetify">
+      <div class="section-header" style="margin-top: 10px;">
+        <h2 class="section-title">Spicetify Themes</h2>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--text-sub);">Select a custom skin for your iPhone web player.</p>
+      <div class="card-grid" id="spicetify-themes-grid"></div>
+
+      <div class="section-header" style="margin-top: 26px;">
+        <h2 class="section-title">Spicetify Extensions</h2>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px;">Toggle built-in enhancements & audio features.</p>
+      <div id="spicetify-extensions-list"></div>
+
+      <div class="section-header" style="margin-top: 26px;">
+        <h2 class="section-title">Custom CSS Injector</h2>
+      </div>
+      <textarea class="input-field" id="custom-css-input" rows="4" placeholder="Paste custom Spicetify CSS styles here..."></textarea>
+      <button class="btn-primary" id="btn-apply-css">Apply Custom CSS</button>
+    </section>
+
+    <!-- 6. Offline Downloads View -->
+    <section class="view-section" id="view-offline">
+      <div class="section-header" style="margin-top: 10px;">
+        <h2 class="section-title">Offline Music</h2>
+        <button class="btn-subtle" id="btn-clear-offline">Clear Storage</button>
+      </div>
+      <p id="offline-stats-text" style="font-size: 0.82rem; color: var(--accent-light); margin-bottom: 14px;">0 tracks stored offline</p>
+      <div class="track-list" id="offline-tracks-list"></div>
+    </section>
+  </main>
+
+  <!-- Floating Mini-Player -->
+  <div class="mini-player" id="mini-player">
+    <div class="mini-player-progress">
+      <div class="mini-player-progress-fill" id="mini-player-progress-fill"></div>
+    </div>
+    <div class="mini-player-left">
+      <img class="mini-player-thumb" id="mini-player-thumb" src="assets/images/furina_logo.jpg" alt="" />
+      <div class="mini-player-info">
+        <div class="mini-player-title" id="mini-player-title">La vaguelette</div>
+        <div class="mini-player-artist" id="mini-player-artist">Furina & Salon Solitaire</div>
+      </div>
+    </div>
+    <div class="mini-player-controls">
+      <button class="btn-mini-play" id="mini-player-play">▶</button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <button class="nav-tab active" data-view="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-tab" data-view="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Search</span>
+    </button>
+    <button class="nav-tab" data-view="library">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg>
+      <span>Library</span>
+    </button>
+    <button class="nav-tab" data-view="spicetify">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span>Spicetify</span>
+    </button>
+    <button class="nav-tab" data-view="offline">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span>Offline</span>
+    </button>
+  </nav>
+
+  <!-- Full-Screen Now Playing Modal -->
+  <div class="modal-now-playing" id="modal-now-playing">
+    <div class="now-playing-topbar">
+      <button class="btn-icon" id="btn-close-now-playing">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div>
+        <div class="now-playing-subtitle">PLAYING FROM PLAYLIST</div>
+        <div class="now-playing-album" id="now-playing-album">Fontaine Symphony</div>
+      </div>
+      <button class="btn-icon" id="btn-np-more">⋮</button>
+    </div>
+
+    <!-- Artwork Box with Canvas Visualizer -->
+    <div class="now-playing-artwork-box">
+      <img class="now-playing-artwork" id="now-playing-artwork" src="assets/images/furina_logo.jpg" alt="Track Art" />
+      <canvas class="visualizer-canvas" id="visualizer-canvas" width="340" height="60"></canvas>
+    </div>
+
+    <!-- Meta Info -->
+    <div class="now-playing-meta">
+      <div>
+        <div class="now-playing-title" id="now-playing-title">La vaguelette</div>
+        <div class="now-playing-artist" id="now-playing-artist">Furina & Salon Solitaire</div>
+      </div>
+      <button class="btn-icon" id="btn-favorite">♥</button>
+    </div>
+
+    <!-- Scrubber -->
+    <div class="scrub-container">
+      <input type="range" class="scrub-slider" id="scrub-slider" min="0" max="100" value="0" />
+      <div class="scrub-times">
+        <span id="time-current">0:00</span>
+        <span id="time-total">0:32</span>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="master-controls">
+      <button class="btn-ctrl" id="btn-main-shuffle" title="Shuffle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+      </button>
+      <button class="btn-ctrl" id="btn-main-prev" title="Previous">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+      </button>
+      <button class="btn-play-large" id="btn-main-play">
+        ▶
+      </button>
+      <button class="btn-ctrl" id="btn-main-next" title="Next">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+      </button>
+      <button class="btn-ctrl" id="btn-main-repeat" title="Repeat">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      </button>
+    </div>
+
+    <!-- Quick Tools (Lyrics, EQ, Offline Download) -->
+    <div class="quick-tools-bar">
+      <button class="tool-btn" id="tool-btn-lyrics">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Lyrics</span>
+      </button>
+      <button class="tool-btn" id="tool-btn-eq">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        <span>Hi-Fi EQ</span>
+      </button>
+      <button class="tool-btn" id="tool-btn-download">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Download</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Synchronized Lyrics Modal -->
+  <div class="modal-lyrics" id="modal-lyrics">
+    <div class="lyrics-header">
+      <h3 id="lyrics-modal-title" style="font-size: 1.1rem; font-weight: 700;">Lyrics</h3>
+      <button class="btn-icon" id="btn-close-lyrics">✕</button>
+    </div>
+    <div class="lyrics-container" id="lyrics-container"></div>
+  </div>
+
+  <!-- Equalizer Modal -->
+  <div class="sheet-modal" id="modal-equalizer">
+    <div class="sheet-content">
+      <div class="sheet-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Hi-Fi Equalizer & Spatial 3D</h3>
+        <button class="btn-icon" id="btn-close-eq">✕</button>
+      </div>
+
+      <div style="display: flex; gap: 6px; overflow-x: auto; margin-bottom: 20px;">
+        <button class="btn-subtle eq-preset-pill active" data-preset="opera_hall">Opera 3D</button>
+        <button class="btn-subtle eq-preset-pill" data-preset="bass_boost">Bass Boost</button>
+        <button class="btn-subtle eq-preset-pill" data-preset="vocal">Vocal Clear</button>
+        <button class="btn-subtle eq-preset-pill" data-preset="hifi">Hi-Fi 320k</button>
+        <button class="btn-subtle eq-preset-pill" data-preset="flat">Flat</button>
+      </div>
+
+      <div class="eq-row">
+        <span class="eq-label">Fontaine 3D Reverb</span>
+        <input type="range" class="eq-slider" id="eq-slider-reverb" min="0" max="0.8" step="0.05" value="0.35" />
+        <span class="eq-val" id="eq-val-reverb">35%</span>
+      </div>
+      <div class="eq-row">
+        <span class="eq-label">Sub (60Hz)</span>
+        <input type="range" class="eq-slider" min="-12" max="12" value="3" disabled />
+        <span class="eq-val">+3dB</span>
+      </div>
+      <div class="eq-row">
+        <span class="eq-label">Mid (1kHz)</span>
+        <input type="range" class="eq-slider" min="-12" max="12" value="2" disabled />
+        <span class="eq-val">+2dB</span>
+      </div>
+      <div class="eq-row">
+        <span class="eq-label">Air (12kHz)</span>
+        <input type="range" class="eq-slider" min="-12" max="12" value="6" disabled />
+        <span class="eq-val">+6dB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Playlist Modal -->
+  <div class="sheet-modal" id="modal-create-playlist">
+    <div class="sheet-content">
+      <div class="sheet-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Create New Playlist</h3>
+        <button class="btn-icon" id="btn-cancel-new-playlist">✕</button>
+      </div>
+      <input type="text" class="input-field" id="input-playlist-name" placeholder="Playlist Name (e.g. My Furina Mix)" />
+      <input type="text" class="input-field" id="input-playlist-desc" placeholder="Description (optional)" />
+      <button class="btn-primary" id="btn-save-new-playlist">Create Playlist</button>
+    </div>
+  </div>
+
+  <!-- Add Track to Playlist Modal -->
+  <div class="sheet-modal" id="modal-add-to-playlist">
+    <div class="sheet-content">
+      <div class="sheet-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Add to Playlist</h3>
+        <button class="btn-icon" id="btn-close-add-playlist">✕</button>
+      </div>
+      <div class="track-list" id="add-playlist-items"></div>
+    </div>
+  </div>
+
+  <!-- Track Action Bottom Sheet -->
+  <div class="sheet-modal" id="sheet-track-action">
+    <div class="sheet-content">
+      <div style="margin-bottom: 16px;">
+        <h3 id="sheet-track-title" style="font-size: 1.1rem; font-weight: 700;">Track Title</h3>
+        <p id="sheet-track-artist" style="font-size: 0.8rem; color: var(--text-sub);"></p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button class="btn-primary" id="sheet-btn-download"><span>📥</span> Download for Offline Play</button>
+        <button class="btn-subtle" id="sheet-btn-add-playlist"><span>➕</span> Add to Playlist</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings & Spotify Modal -->
+  <div class="sheet-modal" id="modal-settings">
+    <div class="sheet-content">
+      <div class="sheet-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Settings & Spotify Connect</h3>
+        <button class="btn-icon" id="btn-close-settings">✕</button>
+      </div>
+      <div id="spotify-user-status" style="margin-bottom: 14px;">
+        <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 8px;">Connect your Spotify account using Spotify PKCE authorization.</p>
+      </div>
+      <div style="margin-bottom: 16px;">
+        <label style="font-size: 0.75rem; color: var(--text-sub); display: block; margin-bottom: 4px;">Spotify Client ID</label>
+        <input type="text" class="input-field" id="input-spotify-client-id" placeholder="Enter Spotify App Client ID" />
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <button class="btn-subtle" id="btn-use-demo-client-id" style="flex: 1;">Use Demo Client ID</button>
+          <button class="btn-primary" id="btn-spotify-login" style="flex: 1;">Connect Spotify</button>
+        </div>
+      </div>
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px;">
+        <h4 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 4px;">PWA Home Screen Installation</h4>
+        <p style="font-size: 0.75rem; color: var(--text-sub);">On your iPhone Safari: tap the <strong>Share</strong> icon and select <strong>"Add to Home Screen"</strong> for full-screen Spicetify offline experience.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Script Entrypoint -->
+  <script type="module" src="assets/js/app.js"></script>
+  <script>
+    // Tab switcher global helper
+    window.switchTab = function(view) {
+      const tab = document.querySelector(`.nav-tab[data-view="${view}"]`);
+      if (tab) tab.click();
+    };
+  </script>
+</body>
+</html>

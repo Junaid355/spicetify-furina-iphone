@@ -1,0 +1,30 @@
+{
+  "name": "Spicetify Furina — iPhone Web Player",
+  "short_name": "Spicetify",
+  "description": "High-fidelity Spotify client with Spicetify extensions, custom Furina Fontaine theme, and offline downloads for iPhone.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#060d1b",
+  "theme_color": "#060d1b",
+  "icons": [
+    {
+      "src": "./assets/icons/app-icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/images/furina_logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "./assets/images/furina_star.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    }
+  ],
+  "categories": ["music", "entertainment", "lifestyle"]
+}

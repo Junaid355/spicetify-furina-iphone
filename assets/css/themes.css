@@ -1,0 +1,152 @@
+/* assets/css/themes.css — Spicetify Themes Definitions */
+
+:root,
+[data-theme="furina-fontaine"] {
+  --bg-base: #060d1b;
+  --bg-surface: rgba(11, 23, 48, 0.72);
+  --bg-surface-elevated: rgba(18, 36, 75, 0.85);
+  --bg-card: rgba(15, 30, 62, 0.65);
+  --bg-card-hover: rgba(25, 48, 98, 0.85);
+  --bg-player: rgba(8, 16, 33, 0.94);
+  --text-main: #ffffff;
+  --text-sub: #8da6c9;
+  --text-dim: #546a8d;
+  --accent: #00b4d8;
+  --accent-light: #48cae4;
+  --accent-glow: rgba(0, 180, 216, 0.45);
+  --accent-gold: #f4c47f;
+  --accent-gold-glow: rgba(244, 196, 127, 0.35);
+  --accent-gradient: linear-gradient(135deg, #00b4d8 0%, #48cae4 60%, #f4c47f 100%);
+  --border-subtle: rgba(72, 202, 228, 0.2);
+  --border-focus: rgba(72, 202, 228, 0.6);
+  --glass-blur: blur(24px);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --slider-bg: rgba(255, 255, 255, 0.15);
+  --active-line: #ffffff;
+  --inactive-line: rgba(141, 166, 201, 0.35);
+}
+
+[data-theme="furina-focalors"] {
+  --bg-base: #081121;
+  --bg-surface: rgba(16, 30, 56, 0.75);
+  --bg-surface-elevated: rgba(26, 48, 86, 0.88);
+  --bg-card: rgba(20, 38, 70, 0.6);
+  --bg-card-hover: rgba(35, 62, 110, 0.85);
+  --bg-player: rgba(9, 18, 35, 0.95);
+  --text-main: #f8fafc;
+  --text-sub: #a5b8d6;
+  --text-dim: #64748b;
+  --accent: #90e0ef;
+  --accent-light: #caf0f8;
+  --accent-glow: rgba(144, 224, 239, 0.45);
+  --accent-gold: #e2e8f0;
+  --accent-gold-glow: rgba(226, 232, 240, 0.3);
+  --accent-gradient: linear-gradient(135deg, #90e0ef 0%, #caf0f8 100%);
+  --border-subtle: rgba(202, 240, 248, 0.25);
+  --border-focus: rgba(202, 240, 248, 0.7);
+  --glass-blur: blur(24px);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --slider-bg: rgba(255, 255, 255, 0.2);
+  --active-line: #caf0f8;
+  --inactive-line: rgba(165, 184, 214, 0.35);
+}
+
+[data-theme="spotify-classic"] {
+  --bg-base: #121212;
+  --bg-surface: #181818;
+  --bg-surface-elevated: #282828;
+  --bg-card: #181818;
+  --bg-card-hover: #282828;
+  --bg-player: #181818;
+  --text-main: #ffffff;
+  --text-sub: #b3b3b3;
+  --text-dim: #727272;
+  --accent: #1db954;
+  --accent-light: #1ed760;
+  --accent-glow: rgba(29, 185, 84, 0.4);
+  --accent-gold: #1db954;
+  --accent-gold-glow: rgba(29, 185, 84, 0.2);
+  --accent-gradient: linear-gradient(135deg, #1db954 0%, #1ed760 100%);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-focus: rgba(29, 185, 84, 0.6);
+  --glass-blur: none;
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --slider-bg: #4d4d4d;
+  --active-line: #ffffff;
+  --inactive-line: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="nord-frost"] {
+  --bg-base: #242933;
+  --bg-surface: #2e3440;
+  --bg-surface-elevated: #3b4252;
+  --bg-card: #2e3440;
+  --bg-card-hover: #3b4252;
+  --bg-player: #2e3440;
+  --text-main: #eceff4;
+  --text-sub: #d8dee9;
+  --text-dim: #4c566a;
+  --accent: #88c0d0;
+  --accent-light: #8fbcbb;
+  --accent-glow: rgba(136, 192, 208, 0.4);
+  --accent-gold: #ebcb8b;
+  --accent-gold-glow: rgba(235, 203, 139, 0.3);
+  --accent-gradient: linear-gradient(135deg, #88c0d0 0%, #81a1c1 100%);
+  --border-subtle: rgba(136, 192, 208, 0.2);
+  --border-focus: rgba(136, 192, 208, 0.6);
+  --glass-blur: none;
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --slider-bg: #434c5e;
+  --active-line: #88c0d0;
+  --inactive-line: rgba(216, 222, 233, 0.3);
+}
+
+[data-theme="catppuccin-mocha"] {
+  --bg-base: #11111b;
+  --bg-surface: #181825;
+  --bg-surface-elevated: #1e1e2e;
+  --bg-card: #1e1e2e;
+  --bg-card-hover: #313244;
+  --bg-player: #181825;
+  --text-main: #cdd6f4;
+  --text-sub: #a6adc8;
+  --text-dim: #6c7086;
+  --accent: #cba6f7;
+  --accent-light: #f5c2e7;
+  --accent-glow: rgba(203, 166, 247, 0.4);
+  --accent-gold: #f9e2af;
+  --accent-gold-glow: rgba(249, 226, 175, 0.3);
+  --accent-gradient: linear-gradient(135deg, #cba6f7 0%, #f5c2e7 100%);
+  --border-subtle: rgba(203, 166, 247, 0.2);
+  --border-focus: rgba(203, 166, 247, 0.6);
+  --glass-blur: none;
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --slider-bg: #45475a;
+  --active-line: #cba6f7;
+  --inactive-line: rgba(166, 173, 200, 0.3);
+}
+
+[data-theme="dracula-royale"] {
+  --bg-base: #1e1f29;
+  --bg-surface: #282a36;
+  --bg-surface-elevated: #343746;
+  --bg-card: #282a36;
+  --bg-card-hover: #44475a;
+  --bg-player: #21222c;
+  --text-main: #f8f8f2;
+  --text-sub: #bfbfbf;
+  --text-dim: #6272a4;
+  --accent: #ff79c6;
+  --accent-light: #bd93f9;
+  --accent-glow: rgba(255, 121, 198, 0.45);
+  --accent-gold: #f1fa8c;
+  --accent-gold-glow: rgba(241, 250, 140, 0.3);
+  --accent-gradient: linear-gradient(135deg, #ff79c6 0%, #bd93f9 100%);
+  --border-subtle: rgba(255, 121, 198, 0.25);
+  --border-focus: rgba(255, 121, 198, 0.65);
+  --glass-blur: none;
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --slider-bg: #44475a;
+  --active-line: #ff79c6;
+  --inactive-line: rgba(191, 191, 191, 0.3);
+}
